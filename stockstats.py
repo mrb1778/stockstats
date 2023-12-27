@@ -29,7 +29,7 @@ from __future__ import unicode_literals
 import functools
 import itertools
 import re
-from typing import Optional, Callable, Union
+from typing import Optional, Callable, Union, Tuple, List
 
 import numpy as np
 import pandas as pd
@@ -91,7 +91,7 @@ _dft_windows = {
 }
 
 
-def set_dft_window(name: str, windows: Union[int, tuple[int, ...]]):
+def set_dft_window(name: str, windows: Union[int, Tuple[int, ...]]):
     ret = _dft_windows.get(name)
     _dft_windows[name] = windows
     return ret
@@ -146,7 +146,7 @@ class _Meta:
         return shifts
 
     @property
-    def ints(self) -> list[int]:
+    def ints(self) -> List[int]:
         items = map(self._process_segment, self.windows.split(','))
         return list(itertools.chain(*items))
 
@@ -419,7 +419,7 @@ class StockDataFrame(pd.DataFrame):
 
     def _shifted_columns(self,
                          column: pd.Series,
-                         shifts: list[int]) -> pd.DataFrame:
+                         shifts: List[int]) -> pd.DataFrame:
         # initialize the column if not
         col = self.get(column)
         res = pd.DataFrame()
